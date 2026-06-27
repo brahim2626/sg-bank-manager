@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: sg-bank-manager
+
+  datasource:
+    # Les valeurs par défaut correspondent au docker-compose fourni.
+    # Elles peuvent être surchargées par variables d'environnement (utile en CI/CD ou en prod).
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:sgbank}
+    username: ${DB_USERNAME:sgbank_user}
+    password: ${DB_PASSWORD:sgbank_password}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      # "update" est volontairement simple pour ce mini-projet (génération auto du schéma).
+      # Dans une vraie application d'entreprise, on utiliserait Flyway/Liquibase
+      # avec des migrations versionnées et ddl-auto: validate.
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    # Évite le pattern "Open Session In View", déconseillé en production :
+    # les requêtes lazy doivent être résolues explicitement dans la couche service.
+    open-in-view: false
+
+server:
+  port: 8080
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+
+logging:
+  level:
+    com.sgbankmanager: DEBUG
