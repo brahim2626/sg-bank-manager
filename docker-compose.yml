@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: sgbank-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: sgbank
+      POSTGRES_USER: sgbank_user
+      POSTGRES_PASSWORD: sgbank_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - sgbank-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sgbank_user -d sgbank"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  sgbank-postgres-data:
