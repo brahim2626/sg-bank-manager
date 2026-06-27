@@ -51,6 +51,12 @@ public class TransactionService {
                 .toList();
     }
 
+    public TransactionResponseDTO getTransactionById(Long id) {
+        Transaction transaction = transactionRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Transaction introuvable avec l'id : " + id));
+        return transactionMapper.toResponseDTO(transaction);
+    }
+
     public List<TransactionResponseDTO> getTransactionsByAccount(Long accountId) {
         // On vérifie d'abord que le compte existe, pour renvoyer une 404 claire
         // plutôt qu'une liste vide ambiguë (compte inexistant vs compte sans historique).
