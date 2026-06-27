@@ -5,7 +5,7 @@ spring:
   datasource:
     # Les valeurs par défaut correspondent au docker-compose fourni.
     # Elles peuvent être surchargées par variables d'environnement (utile en CI/CD ou en prod).
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:sgbank}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5433}/${DB_NAME:sgbank}
     username: ${DB_USERNAME:sgbank_user}
     password: ${DB_PASSWORD:sgbank_password}
     driver-class-name: org.postgresql.Driver
